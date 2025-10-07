@@ -1,0 +1,180 @@
+/* ====================================================================
+   Totem Público - style.css (Visual Base)
+   ==================================================================== */
+
+:root {
+    /* Estas variáveis serão definidas dinamicamente pelo JS (dados do CMS) */
+    --primary-color: #10B981; /* Default: Emerald */
+    --secondary-color: #059669; /* Default: Green Dark */
+    --background-color: #f9f9f9;
+}
+
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: var(--background-color);
+    color: #333;
+}
+
+header#totem-header {
+    background: var(--primary-color);
+    color: white;
+    padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.logo {
+    max-height: 40px;
+}
+
+/* --- Botões --- */
+button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+
+.cart-btn {
+    background: var(--secondary-color);
+    color: white;
+}
+
+.checkout-btn {
+    background: var(--primary-color);
+    color: white;
+    width: 100%;
+    padding: 15px;
+    font-size: 1.1rem;
+}
+
+/* --- Menu e Itens --- */
+.content-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.categories-nav {
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+    margin-bottom: 20px;
+    padding-bottom: 5px; /* Espaço para a barra de rolagem */
+}
+
+.category-tab {
+    padding: 8px 15px;
+    margin-right: 10px;
+    border-radius: 20px;
+    background: #e0e0e0;
+    color: #555;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.category-tab:hover, .category-tab.active {
+    background: var(--secondary-color);
+    color: white;
+}
+
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+/* --- Drawer do Carrinho --- */
+.cart-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    max-width: 400px;
+    height: 100%;
+    background: white;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
+    transform: translateX(100%);
+    transition: transform 0.3s ease-out;
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+}
+
+.cart-drawer.open {
+    transform: translateX(0);
+}
+
+.drawer-header {
+    padding: 15px 20px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cart-items {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+.drawer-footer {
+    padding: 20px;
+    border-top: 1px solid #eee;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s;
+    z-index: 49;
+}
+
+.overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+/* --- Estilização do Produto (Card) --- */
+.product-card {
+    /* O JS já adicionou as classes Tailwind: border p-4 rounded-lg shadow-md bg-white */
+    transition: transform 0.2s;
+}
+
+.product-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.product-card img {
+    /* Estilização básica da imagem */
+    border: 1px solid #eee;
+}
+
+.add-to-cart-btn {
+    /* Sobrescrito pelo JS com var(--primary-color) */
+    font-size: 1rem;
+}
+
+/* --- Estilização da Área do Pedido (Footer) --- */
+.total-area {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
