@@ -1,5 +1,5 @@
 // ====================================================================
-// Serverless-System | CMS ADMIN - LÓGICA PRINCIPAL (script.js) - V3.0 (SIDEBAR UI)
+// Serverless-System | CMS ADMIN - LÓGICA PRINCIPAL (script.js) - V4.0 (UI/UX AVANÇADO)
 // ====================================================================
 
 /**
@@ -10,7 +10,7 @@ const defaultData = {
     configuracoes: {
         binId: '', 
         masterKey: '', 
-        storeStatus: 'open', // open | closed
+        storeStatus: 'closed', // open | closed
         whatsapp: '5511999998888',
         lowStockThreshold: 5,
         storeName: 'LabSystem Store', 
@@ -69,16 +69,16 @@ class StoreManager {
         this.renderCoverage(); 
         this.checkLowStockAlerts(); 
         this.setupEventListeners(); 
+        this.renderDashboardStats(); // NOVO: Renderiza os cards do dashboard
         this.switchTab('publicar'); 
-        this.applyDesktopLayout(); // Aplica o layout de desktop na inicialização
+        this.applyDesktopLayout(); 
     }
     
     // ====================================================================
-    // MÉTODOS DE CONTROLE DA SIDEBAR (NOVO!)
+    // MÉTODOS DE CONTROLE DA SIDEBAR E LAYOUT
     // ====================================================================
     
     applyDesktopLayout() {
-        // Esta função garante que o margin-left seja aplicado apenas em desktop
         const content = document.getElementById('contentContainer');
         if (window.innerWidth >= 1024) {
             content.style.marginLeft = '280px';
@@ -88,7 +88,6 @@ class StoreManager {
     }
 
     openMobileSidebar() {
-        // Abre a sidebar no mobile
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('mobileOverlay');
         sidebar.classList.add('open');
@@ -97,7 +96,6 @@ class StoreManager {
     }
 
     closeMobileSidebar() {
-        // Fecha a sidebar no mobile
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('mobileOverlay');
         sidebar.classList.remove('open');
@@ -107,7 +105,7 @@ class StoreManager {
 
 
     // ====================================================================
-    // EVENT LISTENERS (CRÍTICO PARA FUNCIONALIDADE)
+    // EVENT LISTENERS 
     // ====================================================================
 
     setupEventListeners() {
@@ -115,7 +113,6 @@ class StoreManager {
         document.getElementById('saveBtn')?.addEventListener('click', () => this.saveLocalData());
         document.getElementById('publishBtn')?.addEventListener('click', () => this.publishData());
         
-        // Listeners para Exportar/Importar (garante que funcionem mesmo sem ID no botão)
         document.querySelector('button[onclick="storeManager.exportData()"]')?.addEventListener('click', () => this.exportData());
         document.querySelector('button[onclick="storeManager.triggerImport()"]')?.addEventListener('click', () => this.triggerImport());
 
@@ -127,7 +124,6 @@ class StoreManager {
             btn.addEventListener('click', (e) => {
                 e.preventDefault();
                 this.switchTab(e.currentTarget.getAttribute('data-tab'));
-                // Fecha a sidebar no mobile após o clique
                 if (window.innerWidth < 1024) {
                     this.closeMobileSidebar();
                 }
@@ -171,12 +167,11 @@ class StoreManager {
             });
         });
         
-        // Lógica de Responsividade (Mantém o layout de desktop ao redimensionar)
         window.addEventListener('resize', () => this.applyDesktopLayout());
     }
 
     // ====================================================================
-    // MÉTODOS DE TROCA DE ABA (AJUSTADO PARA SIDEBAR)
+    // MÉTODOS DE TROCA DE ABA (AJUSTADO PARA NOVAS CLASSES)
     // ====================================================================
 
     switchTab(tabName) {
@@ -186,8 +181,8 @@ class StoreManager {
         
         // Remove a classe ativa de TODOS os botões da sidebar
         document.querySelectorAll('.tab-btn').forEach(btn => {
-            btn.classList.remove('sidebar-active', 'text-white'); 
-            btn.classList.add('text-gray-300');
+            btn.classList.remove('sidebar-active', 'bg-indigo-50', 'text-indigo-700'); 
+            btn.classList.add('text-gray-700', 'hover:bg-indigo-50', 'hover:text-indigo-700');
         });
 
         const targetSection = document.getElementById(`tab-${tabName}`);
@@ -198,18 +193,41 @@ class StoreManager {
         // Adiciona a classe ativa ao botão selecionado na sidebar
         const targetButton = document.querySelector(`.tab-btn[data-tab="${tabName}"]`);
         if (targetButton) {
-            targetButton.classList.add('sidebar-active', 'text-white');
-            targetButton.classList.remove('text-gray-300', 'hover:bg-gray-700');
+            targetButton.classList.add('sidebar-active');
+            targetButton.classList.remove('text-gray-700', 'hover:bg-indigo-50', 'hover:text-indigo-700');
+        }
+        
+        // Garante que o dashboard seja atualizado ao trocar de aba
+        if(tabName === 'publicar') {
+            this.renderDashboardStats();
         }
     }
     
-    // O restante das funções (loadLocalData, saveLocalData, collectDataFromForms, 
-    // renderCoverage, publishData, exportData, etc.) é idêntico à V2.2 e 
-    // garante que toda a lógica de persistência continue funcionando.
-    
+    // NOVO: Renderiza os cards da primeira aba
+    renderDashboardStats() {
+        const storeStatus = this.data.configuracoes.storeStatus;
+        const statusEl = document.getElementById('statusDisplay');
+        const productCountEl = document.getElementById('productCountDisplay');
+        const coverageCountEl = document.getElementById('coverageCountDisplay');
+        
+        if (statusEl) {
+            statusEl.textContent = storeStatus === 'open' ? 'ABERTA' : 'FECHADA';
+            statusEl.classList.toggle('text-green-600', storeStatus === 'open');
+            statusEl.classList.toggle('text-red-600', storeStatus === 'closed');
+        }
+        
+        if (productCountEl) {
+            productCountEl.textContent = this.data.produtos.length;
+        }
+        
+        if (coverageCountEl) {
+            coverageCountEl.textContent = this.data.cobertura.length;
+        }
+    }
+
     // ====================================================================
     // MÉTODOS DE PERSISTÊNCIA LOCAL (LOCAL STORAGE)
-    // (Mantidos do V2.2)
+    // (Mantidos do V3.0)
     // ====================================================================
 
     loadLocalData() {
@@ -238,7 +256,8 @@ class StoreManager {
             this.collectDataFromForms(); 
             localStorage.setItem(this.dataKey, JSON.stringify(this.data));
             this.checkLowStockAlerts();
-            this.toast('✅ Dados salvos localmente!', 'bg-indigo-500');
+            this.renderDashboardStats(); // Atualiza dashboard após salvar
+            this.toast('✅ Dados salvos localmente!', 'bg-indigo-600');
         } catch (e) {
             this.toast('❌ Erro ao salvar dados localmente.', 'bg-red-500');
             console.error('Erro ao salvar no LocalStorage:', e);
@@ -247,6 +266,7 @@ class StoreManager {
     
     // ====================================================================
     // MÉTODOS DE COLETA E RENDERIZAÇÃO DE FORMULÁRIOS
+    // (Mantidos do V3.0)
     // ====================================================================
     
     collectDataFromForms() {
@@ -326,6 +346,7 @@ class StoreManager {
     
     // ====================================================================
     // MÉTODOS CRUD: COBERTURA DE ENTREGA 
+    // (Mantidos do V3.0)
     // ====================================================================
     renderCoverage() {
         const tableBody = document.getElementById('coverageTableBody');
@@ -334,13 +355,14 @@ class StoreManager {
         tableBody.innerHTML = '';
         this.data.cobertura.forEach(area => {
             const row = tableBody.insertRow();
+            row.className = 'hover:bg-gray-50'; // Added hover effect
             row.innerHTML = `
                 <td class="py-2 px-4 border-b">${area.name}</td>
                 <td class="py-2 px-4 border-b">R$ ${area.taxa.toFixed(2).replace('.', ',')}</td>
                 <td class="py-2 px-4 border-b">${area.tempo} min</td>
                 <td class="py-2 px-4 border-b text-center space-x-2">
-                    <button type="button" onclick="storeManager.editCoverage('${area.id}')" class="text-blue-500 hover:text-blue-700">Editar</button>
-                    <button type="button" onclick="storeManager.deleteCoverage('${area.id}')" class="text-red-500 hover:text-red-700">Excluir</button>
+                    <button type="button" onclick="storeManager.editCoverage('${area.id}')" class="text-blue-500 hover:text-blue-700 font-medium">Editar</button>
+                    <button type="button" onclick="storeManager.deleteCoverage('${area.id}')" class="text-red-500 hover:text-red-700 font-medium">Excluir</button>
                 </td>
             `;
         });
@@ -420,6 +442,7 @@ class StoreManager {
     
     // ====================================================================
     // MÉTODOS DE SINCRONIZAÇÃO E BACKUP
+    // (Mantidos do V3.0)
     // ====================================================================
 
     async publishData() {
@@ -432,7 +455,6 @@ class StoreManager {
             return;
         }
 
-        // Salva localmente antes de publicar para garantir que os dados de formulário foram coletados
         this.saveLocalData(); 
 
         const url = `https://api.jsonbin.io/v3/b/${binId}`;
@@ -521,11 +543,13 @@ class StoreManager {
 
     // ====================================================================
     // MÉTODOS CRUD: ITENS E CATEGORIAS
+    // (Mantidos do V3.0)
     // ====================================================================
 
     renderItemManagement() {
         this.renderCategoriesList();
         this.renderProductsTable();
+        this.renderProductModalCategories(); // Garante que o modal tenha as categorias
     }
     
     renderCategoriesList() {
@@ -535,7 +559,7 @@ class StoreManager {
         list.innerHTML = '';
         this.data.categorias.forEach(cat => {
             const div = document.createElement('div');
-            div.className = 'flex justify-between items-center p-2 bg-gray-50 rounded-lg border border-gray-200 shadow-sm';
+            div.className = 'flex justify-between items-center p-3 bg-gray-50 rounded-xl border border-gray-200 shadow-sm hover:bg-gray-100 transition'; // Novo estilo
             div.innerHTML = `
                 <span class="font-medium text-gray-700">${cat.name}</span>
                 <button type="button" onclick="storeManager.deleteCategory('${cat.id}')" class="text-red-500 hover:text-red-700 transition p-1 rounded-md">Excluir</button>
@@ -604,17 +628,16 @@ class StoreManager {
                 <td class="py-2 px-6 border-b">R$ ${prod.price.toFixed(2).replace('.', ',')}</td>
                 <td class="py-2 px-6 border-b">${prod.stock}</td>
                 <td class="py-2 px-6 border-b text-center space-x-2">
-                    <button type="button" onclick="storeManager.editProduct('${prod.id}')" class="text-blue-500 hover:text-blue-700">Editar</button>
-                    <button type="button" onclick="storeManager.deleteProduct('${prod.id}')" class="text-red-500 hover:text-red-700">Excluir</button>
+                    <button type="button" onclick="storeManager.editProduct('${prod.id}')" class="text-blue-500 hover:text-blue-700 font-medium">Editar</button>
+                    <button type="button" onclick="storeManager.deleteProduct('${prod.id}')" class="text-red-500 hover:text-red-700 font-medium">Excluir</button>
                 </td>
             `;
         });
     }
 
-    openProductModal(productId = null) {
-        const modal = document.getElementById('productModal');
-        const form = document.getElementById('productForm');
+    renderProductModalCategories() {
         const categorySelect = document.getElementById('productCategoryId');
+        if (!categorySelect) return;
         
         categorySelect.innerHTML = '';
         this.data.categorias.forEach(cat => {
@@ -623,6 +646,13 @@ class StoreManager {
             option.textContent = cat.name;
             categorySelect.appendChild(option);
         });
+    }
+
+    openProductModal(productId = null) {
+        const modal = document.getElementById('productModal');
+        const form = document.getElementById('productForm');
+        
+        this.renderProductModalCategories(); // Garante categorias atualizadas
 
         form.reset();
         document.getElementById('productId').value = '';
@@ -690,6 +720,7 @@ class StoreManager {
     
     // ====================================================================
     // UTILIDADES (ALERTA DE ESTOQUE E TOAST)
+    // (Mantidos do V3.0)
     // ====================================================================
 
     checkLowStockAlerts() {
@@ -712,7 +743,7 @@ class StoreManager {
 
     toast(message, className = 'bg-gray-800') {
         const toastEl = document.createElement('div');
-        toastEl.className = `fixed bottom-4 right-4 text-white p-3 rounded-lg shadow-xl ${className} z-50 transition-opacity duration-300`;
+        toastEl.className = `fixed bottom-4 right-4 text-white p-3 rounded-xl shadow-xl ${className} z-50 transition-opacity duration-300`;
         toastEl.textContent = message;
         document.body.appendChild(toastEl);
         
