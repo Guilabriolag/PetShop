@@ -9,7 +9,7 @@
         body {
             box-sizing: border-box;
             font-family: 'Inter', sans-serif;
-            background-color: #f3f4f6; /* bg-gray-100 */
+            background-color: #f9fafb; /* bg-gray-50 */
         }
         .fade-in {
             animation: fadeIn 0.3s ease-in;
@@ -18,14 +18,17 @@
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        
         /* Estilo do link de navegação ativo na Sidebar */
         .sidebar-active {
             background-color: #4f46e5; /* indigo-600 */
             color: #ffffff !important;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06); /* shadow-md */
         }
+
         /* Sidebar styles for transition */
         #sidebar {
-            transition: transform 0.3s ease-in-out, width 0.3s ease-in-out;
+            transition: transform 0.3s ease-in-out;
             z-index: 30;
         }
         /* Overlay for mobile */
@@ -33,6 +36,7 @@
             transition: opacity 0.3s ease-in-out;
             z-index: 20;
         }
+        
         /* Desktop Sidebar width and Content margin */
         @media (min-width: 1024px) {
             #contentContainer {
@@ -54,39 +58,39 @@
     
     <div id="mobileOverlay" class="fixed inset-0 bg-black opacity-0 hidden lg:hidden" onclick="storeManager.closeMobileSidebar()"></div>
 
-    <nav id="sidebar" class="fixed top-0 left-0 h-full w-72 bg-gray-800 text-white shadow-xl lg:block transform-none">
+    <nav id="sidebar" class="fixed top-0 left-0 h-full w-72 bg-white shadow-2xl lg:block transform-none border-r border-gray-100">
         <div class="p-6">
-            <h2 class="text-3xl font-extrabold text-indigo-400 border-b border-gray-700 pb-4 mb-6">LabSystem CMS</h2>
+            <h2 class="text-3xl font-extrabold text-indigo-700 border-b border-gray-200 pb-4 mb-6">CMS Control</h2>
         </div>
-        <div id="sidebar-nav" class="space-y-2 px-4">
-            <button class="tab-btn w-full text-left flex items-center space-x-3 p-3 rounded-lg text-gray-300 hover:bg-gray-700 transition" data-tab="publicar">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v8a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path></svg>
-                <span>1. Publicar & Sincronizar</span>
+        <div id="sidebar-nav" class="space-y-3 px-4">
+            <button class="tab-btn w-full text-left flex items-center space-x-3 p-4 rounded-xl text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition" data-tab="publicar">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v8a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path></svg>
+                <span class="font-medium">1. Publicação</span>
             </button>
-            <button class="tab-btn w-full text-left flex items-center space-x-3 p-3 rounded-lg text-gray-300 hover:bg-gray-700 transition" data-tab="loja">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2h2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v2M7 7h10a2 2 0 012 2v5a2 2 0 01-2 2H7a2 2 0 01-2-2V9a2 2 0 012-2z"></path></svg>
-                <span>2. Dados da Loja</span>
+            <button class="tab-btn w-full text-left flex items-center space-x-3 p-4 rounded-xl text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition" data-tab="loja">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2h2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v2M7 7h10a2 2 0 012 2v5a2 2 0 01-2 2H7a2 2 0 01-2-2V9a2 2 0 012-2z"></path></svg>
+                <span class="font-medium">2. Dados Operacionais</span>
             </button>
-            <button class="tab-btn w-full text-left flex items-center space-x-3 p-3 rounded-lg text-gray-300 hover:bg-gray-700 transition" data-tab="itens">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14v6m-3-3h6M6 10h2m0 0h2m-2 0V4M7 7h10a2 2 0 012 2v5a2 2 0 01-2 2H7a2 2 0 01-2-2V9a2 2 0 012-2z"></path></svg>
-                <span>3. Cardápio / Itens</span>
+            <button class="tab-btn w-full text-left flex items-center space-x-3 p-4 rounded-xl text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition" data-tab="itens">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14v6m-3-3h6M6 10h2m0 0h2m-2 0V4M7 7h10a2 2 0 012 2v5a2 2 0 01-2 2H7a2 2 0 01-2-2V9a2 2 0 012-2z"></path></svg>
+                <span class="font-medium">3. Cardápio / Itens</span>
             </button>
-            <button class="tab-btn w-full text-left flex items-center space-x-3 p-3 rounded-lg text-gray-300 hover:bg-gray-700 transition" data-tab="customizar">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11.5V14m0-2.5v2.5m0-2.5h-2m2 0h2.5M7 11.5L4.5 14M7 11.5L9.5 14M17 11.5V14m0-2.5v2.5m0-2.5h-2m2 0h2.5M17 11.5L14.5 14M17 11.5L19.5 14M12 4.5v-1m0 1v-1m0 1h-1m1 0h1m-1 0L11 3.5M12 4.5L13 3.5M10 20h4M12 18v2m0-2h-1m1 0h1m-1 0L11 20m1-2L13 20"></path></svg>
-                <span>4. Customizar</span>
+            <button class="tab-btn w-full text-left flex items-center space-x-3 p-4 rounded-xl text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition" data-tab="customizar">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11.5V14m0-2.5v2.5m0-2.5h-2m2 0h2.5M7 11.5L4.5 14M7 11.5L9.5 14M17 11.5V14m0-2.5v2.5m0-2.5h-2m2 0h2.5M17 11.5L14.5 14M17 11.5L19.5 14M12 4.5v-1m0 1v-1m0 1h-1m1 0h1m-1 0L11 3.5M12 4.5L13 3.5M10 20h4M12 18v2m0-2h-1m1 0h1m-1 0L11 20m1-2L13 20"></path></svg>
+                <span class="font-medium">4. Customizar Totem</span>
             </button>
         </div>
         
-        <div class="absolute bottom-0 left-0 w-full p-4 border-t border-gray-700">
-             <a href="../totem/index1.html" target="_blank" class="w-full block text-center bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded-lg transition text-sm font-semibold shadow-md">
+        <div class="absolute bottom-0 left-0 w-full p-4 border-t border-gray-100">
+             <a href="../totem/index1.html" target="_blank" class="w-full block text-center bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-3 rounded-xl transition text-sm font-semibold shadow-md">
                 ▶️ Ver Totem
             </a>
         </div>
     </nav>
 
-    <div id="contentContainer" class="min-h-screen transition-all">
+    <div id="contentContainer" class="min-h-screen transition-all bg-gray-50">
 
-        <header class="bg-white shadow-md sticky top-0 z-20 p-4 flex justify-between items-center lg:pl-8">
+        <header class="bg-white sticky top-0 z-20 p-4 flex justify-between items-center lg:pl-8 border-b border-gray-100">
             <div class="flex items-center space-x-4">
                 <button id="sidebarToggle" class="text-gray-700 lg:hidden p-2 rounded-md hover:bg-gray-100">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
@@ -94,119 +98,133 @@
                 <h1 class="text-xl font-bold text-gray-800 hidden lg:block">Painel de Gerenciamento</h1>
             </div>
             <div class="flex items-center space-x-3">
-                <button id="saveBtn" class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg transition text-sm font-semibold shadow-md" title="Salvar dados localmente">
-                    Salvar Rascunho
+                <button id="saveBtn" class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-xl transition text-sm font-semibold shadow-lg" title="Salvar dados localmente">
+                    💾 Salvar Rascunho
                 </button>
             </div>
         </header>
 
-        <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
             
             <div id="tab-content">
                 
                 <section id="tab-publicar" class="tab-section fade-in">
-                    <h2 class="text-3xl font-bold mb-6 text-indigo-700">Publicação e Sincronização</h2>
+                    <h2 class="text-3xl font-bold mb-8 text-gray-800">Dashboard & Publicação</h2>
                     
-                    <div class="bg-white p-8 rounded-xl shadow-lg max-w-lg mx-auto border border-gray-200">
-                        <h3 class="text-xl font-bold mb-4">Configuração do JSONBin (Backend Serverless)</h3>
-                        <p class="text-sm text-gray-600 mb-6">Estes dados são usados para enviar as configurações da sua loja para a internet.</p>
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+                        <div class="bg-white p-6 rounded-2xl shadow-xl border border-indigo-100">
+                            <h3 class="text-lg font-semibold text-indigo-600">Status Atual</h3>
+                            <p id="statusDisplay" class="text-3xl font-extrabold mt-1 text-green-600">ABERTA</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-2xl shadow-xl border border-gray-200">
+                            <h3 class="text-lg font-semibold text-gray-600">Produtos no Cardápio</h3>
+                            <p id="productCountDisplay" class="text-3xl font-extrabold mt-1 text-gray-800">0</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-2xl shadow-xl border border-gray-200">
+                            <h3 class="text-lg font-semibold text-gray-600">Áreas de Cobertura</h3>
+                            <p id="coverageCountDisplay" class="text-3xl font-extrabold mt-1 text-gray-800">0</p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white p-8 rounded-2xl shadow-xl max-w-2xl mx-auto border border-gray-200">
+                        <h3 class="text-2xl font-bold mb-4 text-indigo-700 border-b pb-2">JSONBin Sincronização</h3>
+                        <p class="text-sm text-gray-600 mb-6">Use esta área para conectar e enviar os dados para o seu Totem.</p>
                         
                         <div class="space-y-4">
                             <label class="block">
                                 <span class="text-gray-700 font-medium">BIN ID (ID Público da Loja)</span>
-                                <input type="text" id="binId" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm p-3 focus:ring-indigo-500 focus:border-indigo-500" placeholder="Ex: 66e2c34dzz543a0d170940" onchange="storeManager.saveLocalData()">
-                                <p class="text-xs text-gray-500 mt-1">Este ID é o que o seu Totem usa para ler os dados.</p>
+                                <input type="text" id="binId" class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm p-3 focus:ring-indigo-500 focus:border-indigo-500 bg-gray-50" placeholder="Ex: 66e2c34dzz543a0d170940" onchange="storeManager.saveLocalData()">
                             </label>
                             
                             <label class="block">
                                 <span class="text-gray-700 font-medium">Chave Secreta (Master Key - JSONBin)</span>
-                                <input type="password" id="masterKey" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm p-3 focus:ring-indigo-500 focus:border-indigo-500" placeholder="Sua Chave Mestra para Escrita (PUT)" onchange="storeManager.saveLocalData()">
+                                <input type="password" id="masterKey" class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm p-3 focus:ring-indigo-500 focus:border-indigo-500 bg-gray-50" placeholder="Sua Chave Mestra para Escrita (PUT)" onchange="storeManager.saveLocalData()">
                                 <p class="text-xs text-red-500 mt-1">Mantenha esta chave em segredo!</p>
                             </label>
 
                             <div class="border-t pt-4 mt-6">
-                                <h3 class="font-bold text-gray-700 mb-2">Backup Local (Segurança)</h3>
+                                <h3 class="font-bold text-gray-700 mb-2">Backup e Restauração</h3>
                                 <div class="flex space-x-3">
-                                    <button type="button" onclick="storeManager.exportData()" class="flex-1 bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition text-sm">
-                                        Exportar Dados (Backup)
+                                    <button type="button" onclick="storeManager.exportData()" class="flex-1 bg-gray-500 hover:bg-gray-600 text-white px-4 py-3 rounded-xl transition text-sm shadow-md">
+                                        Exportar Dados (JSON)
                                     </button>
-                                    <button type="button" onclick="storeManager.triggerImport()" class="flex-1 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition text-sm">
-                                        Importar Dados (Restore)
+                                    <button type="button" onclick="storeManager.triggerImport()" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-xl transition text-sm shadow-md">
+                                        Importar Dados (JSON)
                                     </button>
                                 </div>
                             </div>
 
-                            <button id="publishBtn" class="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg font-semibold w-full transition mt-6 shadow-lg hover:shadow-xl">
-                                PUBLICAR E SINCRONIZAR DADOS (JSONBin)
+                            <button id="publishBtn" class="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-2xl font-extrabold w-full transition mt-8 text-lg shadow-xl hover:shadow-2xl">
+                                🌐 PUBLICAR E SINCRONIZAR DADOS
                             </button>
                         </div>
                     </div>
                 </section>
                 
                 <section id="tab-loja" class="tab-section hidden fade-in">
-                    <h2 class="text-3xl font-bold mb-6 text-indigo-700">Configurações Operacionais, Contato e Entrega</h2>
+                    <h2 class="text-3xl font-bold mb-8 text-gray-800">Dados Operacionais e Pagamento</h2>
                     
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                         
-                        <div class="bg-white p-6 rounded-xl shadow-lg col-span-1 border border-gray-200">
-                            <h3 class="text-xl font-bold mb-4 border-b pb-2">Informações da Loja</h3>
+                        <div class="bg-white p-6 rounded-2xl shadow-xl col-span-1 border border-gray-100">
+                            <h3 class="text-xl font-bold mb-4 border-b pb-2 text-indigo-700">Informações de Contato</h3>
                             <div class="space-y-4">
                                 <label class="block">
-                                    <span class="text-gray-700 font-medium">Nome da Loja (Altera o Totem)</span>
-                                    <input type="text" id="storeName" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm p-3" placeholder="Ex: LabSystem Lanches" onchange="storeManager.saveLocalData()">
-                                </label>
-                                
-                                <label class="block">
-                                    <span class="text-gray-700 font-medium">Endereço Físico</span>
-                                    <input type="text" id="address" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm p-3" placeholder="Rua, Número, Bairro" onchange="storeManager.saveLocalData()">
-                                </label>
-
-                                <label class="block">
-                                    <span class="text-gray-700 font-medium">Status da Loja</span>
-                                    <select id="storeStatus" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm p-3" onchange="storeManager.saveLocalData()">
-                                        <option value="open">Aberta (Recebendo Pedidos)</option>
-                                        <option value="closed">Fechada (Temporariamente Indisponível)</option>
-                                    </select>
+                                    <span class="text-gray-700 font-medium">Nome da Loja</span>
+                                    <input type="text" id="storeName" class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm p-3 bg-gray-50" placeholder="Ex: LabSystem Lanches" onchange="storeManager.saveLocalData()">
                                 </label>
                                 
                                 <label class="block">
                                     <span class="text-gray-700 font-medium">Telefone/WhatsApp (com DDI/DDD)</span>
-                                    <input type="text" id="whatsapp" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm p-3" placeholder="Ex: 5511999998888" onchange="storeManager.saveLocalData()">
+                                    <input type="text" id="whatsapp" class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm p-3 bg-gray-50" placeholder="Ex: 5511999998888" onchange="storeManager.saveLocalData()">
+                                </label>
+                                
+                                <label class="block">
+                                    <span class="text-gray-700 font-medium">Status da Loja</span>
+                                    <select id="storeStatus" class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm p-3 bg-gray-50" onchange="storeManager.saveLocalData()">
+                                        <option value="open">🟢 Aberta</option>
+                                        <option value="closed">🔴 Fechada</option>
+                                    </select>
+                                </label>
+
+                                <label class="block">
+                                    <span class="text-gray-700 font-medium">Endereço Físico</span>
+                                    <input type="text" id="address" class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm p-3 bg-gray-50" placeholder="Rua, Número, Bairro" onchange="storeManager.saveLocalData()">
                                 </label>
                             </div>
                         </div>
 
-                        <div class="bg-white p-6 rounded-xl shadow-lg col-span-1 border border-gray-200">
-                            <h3 class="text-xl font-bold mb-4 border-b pb-2">Informações de Pagamento</h3>
-                            <p class="text-sm text-gray-600 mb-4">Estas informações são enviadas automaticamente no link de checkout do WhatsApp.</p>
+                        <div class="bg-white p-6 rounded-2xl shadow-xl col-span-1 border border-gray-100">
+                            <h3 class="text-xl font-bold mb-4 border-b pb-2 text-indigo-700">Detalhes de Pagamento</h3>
+                            <p class="text-sm text-gray-600 mb-4">Enviados no checkout via WhatsApp.</p>
                             <div class="space-y-4">
                                 <label class="block">
                                     <span class="text-gray-700 font-medium">Chave PIX</span>
-                                    <input type="text" id="pixKey" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm p-3" placeholder="Chave Aleatória, CPF, E-mail ou Telefone" onchange="storeManager.saveLocalData()">
+                                    <input type="text" id="pixKey" class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm p-3 bg-gray-50" placeholder="Chave Aleatória, CPF, E-mail ou Telefone" onchange="storeManager.saveLocalData()">
                                 </label>
                                 
                                 <label class="block">
                                     <span class="text-gray-700 font-medium">Detalhes Bancários (Opcional)</span>
-                                    <textarea id="bankDetails" rows="3" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm p-3" placeholder="Banco, Agência, Conta, Nome do Titular" onchange="storeManager.saveLocalData()"></textarea>
+                                    <textarea id="bankDetails" rows="3" class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm p-3 bg-gray-50" placeholder="Banco, Agência, Conta, Nome do Titular" onchange="storeManager.saveLocalData()"></textarea>
                                 </label>
 
                                 <label class="block">
                                     <span class="text-gray-700 font-medium">Lightning Address (Bitcoin - Opcional)</span>
-                                    <input type="text" id="bitcoinLightning" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm p-3" placeholder="ex: satoshi@venda.com" onchange="storeManager.saveLocalData()">
+                                    <input type="text" id="bitcoinLightning" class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm p-3 bg-gray-50" placeholder="ex: satoshi@venda.com" onchange="storeManager.saveLocalData()">
                                 </label>
                             </div>
                         </div>
 
-                        <div class="bg-white p-6 rounded-xl shadow-lg col-span-1 lg:col-span-1 border border-gray-200">
-                            <h3 class="text-xl font-bold mb-4 border-b pb-2">Cobertura de Entrega</h3>
-                            <button onclick="storeManager.openCoverageModal()" class="bg-indigo-600 text-white px-4 py-2 rounded-lg mb-4 hover:bg-indigo-700 transition text-sm shadow-md">
-                                Adicionar Área de Cobertura
+                        <div class="bg-white p-6 rounded-2xl shadow-xl col-span-1 lg:col-span-1 border border-gray-100">
+                            <h3 class="text-xl font-bold mb-4 border-b pb-2 text-indigo-700">Taxas e Cobertura</h3>
+                            <button onclick="storeManager.openCoverageModal()" class="bg-indigo-600 text-white px-4 py-2 rounded-xl mb-4 hover:bg-indigo-700 transition text-sm font-semibold shadow-md">
+                                + Adicionar Área
                             </button>
                             
                             <div class="overflow-x-auto">
                                 <table class="min-w-full">
                                     <thead>
-                                        <tr class="bg-gray-100 text-gray-600 uppercase text-xs leading-normal">
+                                        <tr class="bg-gray-50 text-gray-600 uppercase text-xs leading-normal">
                                             <th class="py-3 px-4 text-left">Bairro</th>
                                             <th class="py-3 px-4 text-left">Taxa (R$)</th>
                                             <th class="py-3 px-4 text-left">Tempo (min)</th>
@@ -223,29 +241,29 @@
                 </section>
                 
                 <section id="tab-itens" class="tab-section hidden fade-in">
-                    <h2 class="text-3xl font-bold mb-6 text-indigo-700">Gerenciamento de Cardápio</h2>
+                    <h2 class="text-3xl font-bold mb-8 text-gray-800">Gerenciamento de Cardápio</h2>
 
-                    <div id="lowStockAlerts" class="hidden p-4 mb-6 bg-red-100 border-l-4 border-red-500 text-red-700 rounded-lg">
+                    <div id="lowStockAlerts" class="hidden p-4 mb-6 bg-red-100 border-l-4 border-red-500 text-red-700 rounded-lg shadow-md">
                     </div>
 
-                    <div class="mb-8 p-6 rounded-xl bg-white shadow-lg border border-gray-200">
-                        <h3 class="text-xl font-bold mb-3 border-b pb-2">Categorias</h3>
+                    <div class="mb-8 p-6 rounded-2xl bg-white shadow-xl border border-gray-100">
+                        <h3 class="text-xl font-bold mb-3 border-b pb-2 text-indigo-700">Categorias</h3>
                         <div class="flex space-x-2 mb-4">
-                            <input type="text" id="newCategoryName" class="p-3 border rounded-lg flex-1 shadow-sm" placeholder="Nome da nova categoria (Ex: Pizzas, Bebidas)">
-                            <button onclick="storeManager.addCategory()" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition shadow-md">Adicionar Categoria</button>
+                            <input type="text" id="newCategoryName" class="p-3 border rounded-xl flex-1 shadow-sm bg-gray-50" placeholder="Nome da nova categoria (Ex: Pizzas, Bebidas)">
+                            <button onclick="storeManager.addCategory()" class="bg-indigo-600 text-white px-4 py-2 rounded-xl hover:bg-indigo-700 transition shadow-md font-semibold">Adicionar</button>
                         </div>
-                        <div id="categoriesList" class="space-y-2">
+                        <div id="categoriesList" class="space-y-3">
                         </div>
                     </div>
 
                     <div>
-                        <h3 class="text-xl font-bold mb-3">Produtos</h3>
-                        <button onclick="storeManager.openProductModal()" class="bg-green-600 text-white px-4 py-2 rounded-lg mb-4 hover:bg-green-700 transition shadow-md">Novo Produto</button>
+                        <h3 class="text-xl font-bold mb-3 text-indigo-700">Produtos</h3>
+                        <button onclick="storeManager.openProductModal()" class="bg-green-600 text-white px-4 py-2 rounded-xl mb-4 hover:bg-green-700 transition shadow-md font-semibold">➕ Novo Produto</button>
                         
-                        <div class="overflow-x-auto bg-white rounded-xl shadow-lg border border-gray-200">
+                        <div class="overflow-x-auto bg-white rounded-2xl shadow-xl border border-gray-100">
                             <table class="min-w-full">
                                 <thead>
-                                    <tr class="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
+                                    <tr class="bg-gray-50 text-gray-600 uppercase text-sm leading-normal">
                                         <th class="py-3 px-6 text-left">Produto</th>
                                         <th class="py-3 px-6 text-left">Categoria</th>
                                         <th class="py-3 px-6 text-left">Preço</th>
@@ -261,54 +279,52 @@
                 </section>
 
                 <section id="tab-customizar" class="tab-section hidden fade-in">
-                    <h2 class="text-3xl font-bold mb-6 text-indigo-700">Customização Visual e Mídia do Totem</h2>
+                    <h2 class="text-3xl font-bold mb-8 text-gray-800">Customização Visual do Totem</h2>
                     
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                         
-                        <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-200">
-                            <h3 class="text-xl font-bold mb-4 border-b pb-2">Identidade Visual e Cores</h3>
-                            <p class="text-sm text-gray-600 mb-6">Defina as cores principais do seu tema.</p>
+                        <div class="bg-white p-6 rounded-2xl shadow-xl border border-gray-100">
+                            <h3 class="text-xl font-bold mb-4 border-b pb-2 text-indigo-700">Identidade Visual e Cores</h3>
                             
                             <div class="space-y-4">
                                 <label class="block flex items-center space-x-4">
-                                    <span class="text-gray-700 font-medium w-40">Cor 1 (Cabeçalho/Botões):</span>
-                                    <input type="color" id="headerFooterColor" class="h-10 w-10 p-1 border rounded-md" onchange="document.getElementById('headerFooterColorText').value = this.value; storeManager.saveLocalData()">
-                                    <input type="text" id="headerFooterColorText" class="flex-1 rounded-lg border-gray-300 shadow-sm p-3 text-sm" placeholder="#10B981" onchange="document.getElementById('headerFooterColor').value = this.value; storeManager.saveLocalData()">
+                                    <span class="text-gray-700 font-medium w-40">Cor Primária (Botões):</span>
+                                    <input type="color" id="headerFooterColor" class="h-10 w-10 p-1 border rounded-xl" onchange="document.getElementById('headerFooterColorText').value = this.value; storeManager.saveLocalData()">
+                                    <input type="text" id="headerFooterColorText" class="flex-1 rounded-xl border-gray-300 shadow-sm p-3 text-sm bg-gray-50" placeholder="#10B981" onchange="document.getElementById('headerFooterColor').value = this.value; storeManager.saveLocalData()">
                                 </label>
                                 
                                 <label class="block flex items-center space-x-4">
-                                    <span class="text-gray-700 font-medium w-40">Cor 2 (Letra/Título):</span>
-                                    <input type="color" id="titleTextColor" class="h-10 w-10 p-1 border rounded-md" onchange="document.getElementById('titleTextColorText').value = this.value; storeManager.saveLocalData()">
-                                    <input type="text" id="titleTextColorText" class="flex-1 rounded-lg border-gray-300 shadow-sm p-3 text-sm" placeholder="#FFFFFF" onchange="document.getElementById('titleTextColor').value = this.value; storeManager.saveLocalData()">
+                                    <span class="text-gray-700 font-medium w-40">Cor Secundária (Texto):</span>
+                                    <input type="color" id="titleTextColor" class="h-10 w-10 p-1 border rounded-xl" onchange="document.getElementById('titleTextColorText').value = this.value; storeManager.saveLocalData()">
+                                    <input type="text" id="titleTextColorText" class="flex-1 rounded-xl border-gray-300 shadow-sm p-3 text-sm bg-gray-50" placeholder="#FFFFFF" onchange="document.getElementById('titleTextColor').value = this.value; storeManager.saveLocalData()">
                                 </label>
                                 
                                 <label class="block flex items-center space-x-4">
                                     <span class="text-gray-700 font-medium w-40">Cor de Fundo:</span>
-                                    <input type="color" id="backgroundColor" class="h-10 w-10 p-1 border rounded-md" onchange="document.getElementById('backgroundColorText').value = this.value; storeManager.saveLocalData()">
-                                    <input type="text" id="backgroundColorText" class="flex-1 rounded-lg border-gray-300 shadow-sm p-3 text-sm" placeholder="#f9f9f9" onchange="document.getElementById('backgroundColor').value = this.value; storeManager.saveLocalData()">
+                                    <input type="color" id="backgroundColor" class="h-10 w-10 p-1 border rounded-xl" onchange="document.getElementById('backgroundColorText').value = this.value; storeManager.saveLocalData()">
+                                    <input type="text" id="backgroundColorText" class="flex-1 rounded-xl border-gray-300 shadow-sm p-3 text-sm bg-gray-50" placeholder="#f9f9f9" onchange="document.getElementById('backgroundColor').value = this.value; storeManager.saveLocalData()">
                                 </label>
                                 
                                 <label class="block pt-2">
                                     <span class="text-gray-700 font-medium">URL da Imagem de Fundo (Opcional):</span>
-                                    <input type="url" id="backgroundImageUrl" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm p-3" placeholder="Ex: https://i.imgur.com/seu_fundo.png" onchange="storeManager.saveLocalData()">
+                                    <input type="url" id="backgroundImageUrl" class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm p-3 bg-gray-50" placeholder="Ex: https://i.imgur.com/seu_fundo.png" onchange="storeManager.saveLocalData()">
                                     <p class="text-xs text-gray-500 mt-1">Se preenchido, a imagem substituirá a Cor de Fundo.</p>
                                 </label>
 
                                 <label class="block pt-2 border-t mt-4">
                                     <span class="text-gray-700 font-medium">URL da Imagem da Logo:</span>
-                                    <input type="url" id="logoUrl" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm p-3" placeholder="Ex: https://i.imgur.com/sua_logo.png" onchange="storeManager.saveLocalData()">
+                                    <input type="url" id="logoUrl" class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm p-3 bg-gray-50" placeholder="Ex: https://i.imgur.com/sua_logo.png" onchange="storeManager.saveLocalData()">
                                 </label>
                             </div>
                         </div>
 
-                        <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-200">
-                            <h3 class="text-xl font-bold mb-4 border-b pb-2">Música e Mídia</h3>
-                            <p class="text-sm text-gray-600 mb-6">Música de fundo para uma melhor experiência no Totem.</p>
-
+                        <div class="bg-white p-6 rounded-2xl shadow-xl border border-gray-100">
+                            <h3 class="text-xl font-bold mb-4 border-b pb-2 text-indigo-700">Música de Fundo (Totem)</h3>
+                            
                             <div class="space-y-4">
                                 <label class="block">
-                                    <span class="text-gray-700 font-medium">Link do YouTube para Música de Fundo:</span>
-                                    <input type="url" id="musicUrl" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm p-3" placeholder="Ex: https://www.youtube.com/watch?v=xxxxxxxxxxx" onchange="storeManager.saveLocalData()">
+                                    <span class="text-gray-700 font-medium">Link do YouTube:</span>
+                                    <input type="url" id="musicUrl" class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm p-3 bg-gray-50" placeholder="Ex: https://www.youtube.com/watch?v=xxxxxxxxxxx" onchange="storeManager.saveLocalData()">
                                     <p class="text-xs text-gray-500 mt-1">O Totem tentará rodar em loop este vídeo como música.</p>
                                 </label>
                                 
@@ -318,10 +334,9 @@
                                         <span id="musicVolumeValue" class="font-bold text-indigo-600">50</span>
                                     </span>
                                     <input type="range" id="musicVolume" min="0" max="100" step="5" value="50" 
-                                           class="mt-1 block w-full" 
+                                           class="mt-1 block w-full appearance-none h-2 bg-indigo-200 rounded-lg" 
                                            onchange="document.getElementById('musicVolumeValue').textContent = this.value; storeManager.saveLocalData()">
                                 </label>
-                                
                             </div>
                         </div>
                     </div>
@@ -330,42 +345,44 @@
                 </div>
         </main>
 
-        <div id="productModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden" style="z-index: 100;">
-            <div class="relative top-16 mx-auto p-6 border w-11/12 md:w-2/3 lg:w-1/2 shadow-2xl rounded-xl bg-white transform transition-all">
-                <h3 id="modalTitle" class="text-2xl font-bold mb-4 border-b pb-2">Adicionar Novo Produto</h3>
+        <div id="productModal" class="fixed inset-0 bg-gray-900 bg-opacity-40 overflow-y-auto h-full w-full hidden" style="z-index: 100;">
+            <div class="relative top-16 mx-auto p-8 border w-11/12 md:w-2/3 lg:w-1/2 shadow-2xl rounded-2xl bg-white transform transition-all">
+                <h3 id="modalTitle" class="text-2xl font-bold mb-4 border-b pb-2 text-indigo-700">Adicionar Novo Produto</h3>
                 <form id="productForm" class="space-y-4">
                     <input type="hidden" id="productId">
                     
-                    <label class="block">Nome: <input type="text" id="productName" required class="mt-1 block w-full border rounded-lg p-3 shadow-sm"></label>
-                    <label class="block">Preço (R$): <input type="number" id="productPrice" step="0.01" required class="mt-1 block w-full border rounded-lg p-3 shadow-sm"></label>
-                    <label class="block">Estoque: <input type="number" id="productStock" required class="mt-1 block w-full border rounded-lg p-3 shadow-sm"></label>
-                    <label class="block">URL da Imagem: <input type="url" id="productImageUrl" class="mt-1 block w-full border rounded-lg p-3 shadow-sm"></label>
+                    <label class="block text-gray-700">Nome: <input type="text" id="productName" required class="mt-1 block w-full border rounded-xl p-3 shadow-sm bg-gray-50"></label>
+                    <div class="grid grid-cols-2 gap-4">
+                         <label class="block text-gray-700">Preço (R$): <input type="number" id="productPrice" step="0.01" required class="mt-1 block w-full border rounded-xl p-3 shadow-sm bg-gray-50"></label>
+                         <label class="block text-gray-700">Estoque: <input type="number" id="productStock" required class="mt-1 block w-full border rounded-xl p-3 shadow-sm bg-gray-50"></label>
+                    </div>
+                    <label class="block text-gray-700">URL da Imagem: <input type="url" id="productImageUrl" class="mt-1 block w-full border rounded-xl p-3 shadow-sm bg-gray-50"></label>
                     
-                    <label class="block">Categoria: 
-                        <select id="productCategoryId" required class="mt-1 block w-full border rounded-lg p-3 shadow-sm">
+                    <label class="block text-gray-700">Categoria: 
+                        <select id="productCategoryId" required class="mt-1 block w-full border rounded-xl p-3 shadow-sm bg-gray-50">
                             </select>
                     </label>
                     
                     <div class="flex justify-end space-x-3 pt-4">
-                        <button type="button" onclick="storeManager.closeProductModal()" class="bg-gray-300 px-6 py-2 rounded-lg hover:bg-gray-400 transition">Cancelar</button>
-                        <button type="submit" class="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition">Salvar Produto</button>
+                        <button type="button" onclick="storeManager.closeProductModal()" class="bg-gray-300 px-6 py-2 rounded-xl hover:bg-gray-400 transition font-semibold">Cancelar</button>
+                        <button type="submit" class="bg-indigo-600 text-white px-6 py-2 rounded-xl hover:bg-indigo-700 transition font-semibold">Salvar Produto</button>
                     </div>
                 </form>
             </div>
         </div>
-        <div id="coverageModal" class="modal fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden" style="z-index: 100;">
-            <div class="relative top-16 mx-auto p-6 border w-11/12 md:w-1/3 shadow-2xl rounded-xl bg-white transform transition-all">
-                <h3 id="coverageModalTitle" class="text-2xl font-bold mb-4 border-b pb-2">Adicionar Nova Área</h3>
+        <div id="coverageModal" class="modal fixed inset-0 bg-gray-900 bg-opacity-40 overflow-y-auto h-full w-full hidden" style="z-index: 100;">
+            <div class="relative top-16 mx-auto p-8 border w-11/12 md:w-1/3 shadow-2xl rounded-2xl bg-white transform transition-all">
+                <h3 id="coverageModalTitle" class="text-2xl font-bold mb-4 border-b pb-2 text-indigo-700">Adicionar Nova Área</h3>
                 <form id="coverageForm" class="space-y-4">
                     <input type="hidden" id="coverageId">
                     
-                    <label class="block">Bairro/Área: <input type="text" id="coverageNameModal" required class="mt-1 block w-full border rounded-lg p-3 shadow-sm" placeholder="Ex: Bairro Central"></label>
-                    <label class="block">Taxa de Entrega (R$): <input type="number" id="coverageTaxaModal" step="0.01" required class="mt-1 block w-full border rounded-lg p-3 shadow-sm" placeholder="Ex: 5.00"></label>
-                    <label class="block">Tempo Estimado (min): <input type="number" id="coverageTempoModal" required class="mt-1 block w-full border rounded-lg p-3 shadow-sm" placeholder="Ex: 30"></label>
+                    <label class="block text-gray-700">Bairro/Área: <input type="text" id="coverageNameModal" required class="mt-1 block w-full border rounded-xl p-3 shadow-sm bg-gray-50" placeholder="Ex: Bairro Central"></label>
+                    <label class="block text-gray-700">Taxa de Entrega (R$): <input type="number" id="coverageTaxaModal" step="0.01" required class="mt-1 block w-full border rounded-xl p-3 shadow-sm bg-gray-50" placeholder="Ex: 5.00"></label>
+                    <label class="block text-gray-700">Tempo Estimado (min): <input type="number" id="coverageTempoModal" required class="mt-1 block w-full border rounded-xl p-3 shadow-sm bg-gray-50" placeholder="Ex: 30"></label>
                     
                     <div class="flex justify-end space-x-3 pt-4">
-                        <button type="button" onclick="storeManager.closeCoverageModal()" class="bg-gray-300 px-6 py-2 rounded-lg hover:bg-gray-400 transition">Cancelar</button>
-                        <button type="submit" class="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition">Salvar Área</button>
+                        <button type="button" onclick="storeManager.closeCoverageModal()" class="bg-gray-300 px-6 py-2 rounded-xl hover:bg-gray-400 transition font-semibold">Cancelar</button>
+                        <button type="submit" class="bg-indigo-600 text-white px-6 py-2 rounded-xl hover:bg-indigo-700 transition font-semibold">Salvar Área</button>
                     </div>
                 </form>
             </div>
@@ -373,4 +390,4 @@
         </div>
     <script src="script.js"></script>
 </body>
-</html>
+                        </html>
