@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="pageTitle">LabSystem Store - Cardápio Digital</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.5s;
+        }
+        /* Estilos base que serão alterados pelo JS */
+        :root {
+            --color-primary: #10B981; /* Cor 1 (Botões) */
+            --color-secondary: #FFFFFF; /* Cor 2 (Texto) */
+        }
+        .bg-primary { background-color: var(--color-primary); }
+        .text-primary { color: var(--color-primary); }
+        .bg-secondary { background-color: var(--color-secondary); }
+        .text-secondary { color: var(--color-secondary); }
+
+        /* Estilo da aba ativa */
+        .active-tab {
+            border-bottom: 2px solid var(--color-primary);
+            color: var(--color-primary);
+            font-weight: 600;
+        }
+        /* Estilos para o background com imagem */
+        .bg-image-cover {
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+        /* Garantir que o player do YouTube esteja oculto mas presente */
+        #youtube-player {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+            opacity: 0;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <div id="youtube-player"></div>
+
+    <div id="app-container" class="opacity-100 transition-opacity duration-500">
+        
+        <header id="mainHeader" class="bg-primary text-secondary shadow-lg sticky top-0 z-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
+                <div class="flex items-center space-x-3">
+                    <img id="storeLogo" src="" alt="Logo" class="h-10 w-auto rounded-md">
+                    <h1 id="storeNameHeader" class="text-2xl font-extrabold"></h1>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button onclick="totem.openCartModal()" id="cartBtn" class="bg-secondary text-primary px-4 py-2 rounded-md transition text-sm font-semibold relative">
+                        🛒 Carrinho (<span id="cartCount">0</span>)
+                    </button>
+                    <button onclick="totem.toggleMusic()" id="musicToggleBtn" class="text-secondary px-2 py-1 rounded-full text-lg transition">
+                        🔊
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <nav id="categoryNav" class="bg-white shadow-md sticky top-[60px] z-10">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div id="categoryTabs" class="flex space-x-8 overflow-x-auto whitespace-nowrap">
+                    </div>
+            </div>
+        </nav>
+
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div id="productsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div id="loadingIndicator" class="col-span-full text-center p-10 text-xl text-gray-500">
+                    Carregando cardápio...
+                </div>
+                <div id="storeClosedAlert" class="col-span-full text-center p-10 bg-red-100 text-red-700 border border-red-300 rounded-lg hidden">
+                    <h2 class="text-2xl font-bold mb-2">🔴 Loja Fechada</h2>
+                    <p class="text-lg">Desculpe, a loja está temporariamente indisponível para pedidos.</p>
+                </div>
+            </div>
+        </main>
+
+        <div id="cartModal" class="fixed inset-0 bg-gray-900 bg-opacity-75 overflow-y-auto h-full w-full hidden" style="z-index: 100;">
+            <div class="relative top-10 mx-auto p-5 border w-11/12 md:w-2/3 lg:w-1/2 shadow-lg rounded-md bg-white">
+                <h3 class="text-2xl font-bold mb-4 border-b pb-2">Seu Pedido</h3>
+                
+                <div id="cartItemsList" class="space-y-4 max-h-96 overflow-y-auto pr-2">
+                    </div>
+
+                <div class="mt-4 pt-4 border-t">
+                    <div id="coverageSelector" class="mb-4">
+                        <label for="deliveryArea" class="block text-lg font-medium text-gray-700 mb-1">Selecione a Área de Entrega:</label>
+                        <select id="deliveryArea" onchange="totem.updateCartSummary()" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2">
+                            <option value="">Retirar na Loja (Sem Taxa)</option>
+                            </select>
+                    </div>
+
+                    <div class="text-lg font-semibold space-y-2">
+                        <div class="flex justify-between">
+                            <span>Subtotal:</span>
+                            <span>R$ <span id="subtotal">0,00</span></span>
+                        </div>
+                        <div class="flex justify-between text-yellow-600">
+                            <span>Taxa de Entrega:</span>
+                            <span>R$ <span id="deliveryTax">0,00</span></span>
+                        </div>
+                        <div class="flex justify-between text-2xl font-extrabold text-primary">
+                            <span>Total:</span>
+                            <span>R$ <span id="total">0,00</span></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex justify-end space-x-3 mt-6">
+                    <button type="button" onclick="totem.closeCartModal()" class="bg-gray-300 px-4 py-2 rounded-md">Continuar Comprando</button>
+                    <button type="button" onclick="totem.checkout()" id="checkoutBtn" class="bg-primary text-secondary px-6 py-2 rounded-md font-semibold">
+                        Finalizar Pedido (WhatsApp)
+                    </button>
+                </div>
+            </div>
+        </div>
+        </div>
+    <script src="https://www.youtube.com/iframe_api"></script>
+
+    <script src="script.js"></script>
+</body>
+</html>
